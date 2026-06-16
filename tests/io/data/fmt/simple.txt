@@ -1,0 +1,16 @@
+                              
+             Info             
+┏━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┓
+┃ Item    ┃ Value            ┃
+┡━━━━━━━━━╇━━━━━━━━━━━━━━━━━━┩
+│ program │ attestationcheck │
+│ version │ dev              │
+│ license │ MIT LICENSE      │
+└─────────┴──────────────────┘
+                              
+       List Of Packages       
+┏━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┓
+┃ Package ┃ Attestation Info ┃
+┡━━━━━━━━━╇━━━━━━━━━━━━━━━━━━┩
+│ example │ Unsupported      │
+└─────────┴──────────────────┘

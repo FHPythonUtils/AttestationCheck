@@ -1,0 +1,25 @@
+{
+	"info": {
+		"program": "attestationcheck",
+		"version": "dev",
+		"license": "MIT LICENSE"
+	},
+	"packages": [
+		{
+			"name": "example",
+			"version": "unknown",
+			"namever": "example-unknown",
+			"homePage": "unknown",
+			"author": "unknown",
+			"repo": "unknown",
+			"filename": "unknown",
+			"digest_256": "unknown",
+			"is_supported_publisher": false,
+			"is_attestation_present": false,
+			"is_attestation_valid": false,
+			"is_attestation_verified": false,
+			"httpErrorCode": 0,
+			"attestation_info": "Unsupported"
+		}
+	]
+}

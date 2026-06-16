@@ -1,0 +1,41 @@
+{
+	"info": {
+		"program": "attestationcheck",
+		"version": "dev",
+		"license": "MIT LICENSE"
+	},
+	"packages": [
+		{
+			"name": "example0",
+			"version": "1.0.0",
+			"namever": "example0-1.0.0",
+			"homePage": "https://example.com",
+			"author": "example_author",
+			"repo": "example_repo",
+			"filename": "example_filename",
+			"digest_256": "example_digest",
+			"is_supported_publisher": true,
+			"is_attestation_present": true,
+			"is_attestation_valid": false,
+			"is_attestation_verified": false,
+			"httpErrorCode": 0,
+			"attestation_info": "Present"
+		},
+		{
+			"name": "example1",
+			"version": "unknown",
+			"namever": "example1-unknown",
+			"homePage": "https://example.com",
+			"author": "example_author",
+			"repo": "unknown",
+			"filename": "unknown",
+			"digest_256": "unknown",
+			"is_supported_publisher": false,
+			"is_attestation_present": false,
+			"is_attestation_valid": false,
+			"is_attestation_verified": false,
+			"httpErrorCode": 1,
+			"attestation_info": "Unsupported"
+		}
+	]
+}

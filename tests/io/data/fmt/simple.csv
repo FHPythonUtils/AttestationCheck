@@ -1,0 +1,2 @@
+name,version,namever,homePage,author,repo,filename,digest_256,is_supported_publisher,is_attestation_present,is_attestation_valid,is_attestation_verified,httpErrorCode,attestation_info
+example,unknown,example-unknown,unknown,unknown,unknown,unknown,unknown,False,False,False,False,0,Unsupported
