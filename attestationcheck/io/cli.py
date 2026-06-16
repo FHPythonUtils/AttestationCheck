@@ -89,9 +89,7 @@ def cli() -> None:  # pragma: no cover
 
 	config: ConfigNode = Config()
 
-	# (Parses in the following order: `pyproject.toml`,
-	# `setup.cfg`, `attestationcheck.toml`, `attestationcheck.json`,
-	# `attestationcheck.ini`, `~/attestationcheck.toml`, `~/attestationcheck.json`, `~/attestationcheck.ini`)
+	# (Parses in the following order:
 	config_files = [
 		"~/attestationcheck.json",
 		"~/attestationcheck.toml",

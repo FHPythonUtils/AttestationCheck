@@ -121,9 +121,9 @@ class RemotePackageInfo:
 	"""Handles retrieval of package info from PyPI."""
 
 	def __init__(self, pypi_api: str, package: PackageInfo) -> None:
-		self.pypi_api_pypi = pypi_api + "/pypi"
-		self.pypi_api_integrity = pypi_api + "/integrity"
-		self.package = package
+		self.pypi_api_pypi: str = pypi_api + "/pypi"
+		self.pypi_api_integrity: str = pypi_api + "/integrity"
+		self.package: PackageInfo = package
 
 		# Attempt to get versioned info first
 		rc, raw_resp = self.make_req(
@@ -150,16 +150,16 @@ class RemotePackageInfo:
 		except requests.exceptions.RequestException:
 			return -2, {}
 
-	def get_name(self) -> str | None:
+	def get_name(self) -> str:
 		return self.info.name
 
-	def get_version(self) -> str | None:
+	def get_version(self) -> str:
 		return self.info.version
 
-	def get_homePage(self) -> str | None:
+	def get_homePage(self) -> str:
 		return self.info.home_page
 
-	def get_author(self) -> str | None:
+	def get_author(self) -> str:
 		author_email = self.info.author_email or ""
 		return self.info.author or author_email.split("<")[0].strip()
 
