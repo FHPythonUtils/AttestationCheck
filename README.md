@@ -12,6 +12,8 @@
 
 <img src="readme-assets/icons/name.png" alt="Project Icon" width="750">
 
+Output the attestation status used by dependencies. e.g. Verified, Valid, Supported by package host etc.
+
 <!-- omit in toc -->
 ## Table of Contents
 
@@ -163,7 +165,7 @@ usage: attestationcheck [-h] [--format FORMAT] [--requirements-paths REQUIREMENT
                         [--hide-output-parameters HIDE_OUTPUT_PARAMETERS [HIDE_OUTPUT_PARAMETERS ...]] [--show-only-failing]
                         [--pypi-api PYPI_API] [--zero]
 
-Output the attestations used by dependencies.
+Output the attestation status used by dependencies. e.g. Verified, Valid, Supported by package host etc.
 
 options:
   -h, --help            show this help message and exit

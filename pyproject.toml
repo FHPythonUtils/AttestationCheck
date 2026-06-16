@@ -1,7 +1,7 @@
 [project]
 name = "attestationcheck"
-version = "0.1.0"
-description = ""
+version = "0.1.1"
+description = "Output the attestation status used by dependencies. e.g. Verified, Valid, Supported by package host etc."
 authors = [{ name = "FredHappyface" }]
 requires-python = ">=3.12"
 readme = "README.md"

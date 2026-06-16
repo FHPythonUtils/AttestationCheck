@@ -1,4 +1,4 @@
-"""Output the attestations used by dependencies."""
+"""Output the attestation status used by dependencies. e.g. Verified, Valid, Supported by package host etc."""
 
 from __future__ import annotations
 
