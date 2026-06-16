@@ -97,7 +97,6 @@ def cli() -> None:  # pragma: no cover
 		"~/attestationcheck.toml",
 		"attestationcheck.json",
 		"attestationcheck.toml",
-		"setup.cfg",
 		"pyproject.toml",
 	]
 
