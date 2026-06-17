@@ -31,6 +31,7 @@ import json
 import re
 from collections import OrderedDict
 from datetime import datetime
+from enum import StrEnum, auto
 from importlib.metadata import PackageNotFoundError, version
 from io import StringIO
 from pathlib import Path
@@ -245,7 +246,7 @@ def rawCsv(
 
 
 def fmt(
-	format_: str,
+	format_: FMT,
 	packages: list[PackageInfo],
 	hide_parameters: set[str] | None = None,
 	*,
@@ -268,11 +269,20 @@ def fmt(
 	return formatMap.get(format_, plainText)(pkgs)
 
 
+class FMT(StrEnum):
+	json = auto()
+	markdown = auto()
+	html = auto()
+	csv = auto()
+	ansi = auto()
+	simple = auto()
+
+
 formatMap = {
-	"json": raw,
-	"markdown": markdown,
-	"html": html,
-	"csv": rawCsv,
-	"ansi": ansi,
-	"simple": plainText,
+	FMT.json: raw,
+	FMT.markdown: markdown,
+	FMT.html: html,
+	FMT.csv: rawCsv,
+	FMT.ansi: ansi,
+	FMT.simple: plainText,
 }
