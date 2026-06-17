@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import datetime
 from collections.abc import Generator
 from dataclasses import dataclass, field, fields
 from enum import StrEnum
@@ -49,10 +50,12 @@ class PackageInfo:
 	is_attestation_valid: bool = False
 	is_attestation_verified: bool = False
 
+	last_updated: datetime.datetime = datetime.datetime(1970, 1, 1, tzinfo=datetime.UTC)
+
 	httpErrorCode: int = 0
 
 	def __post_init__(self) -> None:
-		"""Set the namever once the object is initialised."""
+		"""Set the namever once the object is initialized."""
 		self.namever = f"{self.name}-{self.version or UNKNOWN}"
 
 	@property

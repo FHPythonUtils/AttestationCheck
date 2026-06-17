@@ -45,48 +45,33 @@ See below for the output if you run `attestationcheck` in this directory. More e
 ### Using pyproject.toml (default if not piping input)
 
 ```txt
->> attestationcheck
-
-                               
+>> uv run attestationcheck 
+                              
              Info             
 ┏━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┓
 ┃ Item    ┃ Value            ┃
 ┡━━━━━━━━━╇━━━━━━━━━━━━━━━━━━┩
 │ program │ attestationcheck │
-│ version │ 0.1.0            │
+│ version │ 0.1.1            │
 │ license │ MIT LICENSE      │
 └─────────┴──────────────────┘
-                                           
-             List Of Packages              
-┏━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┓
-┃ Package              ┃ Attestation Info ┃
-┡━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━┩
-│ annotated-types      │ Supported        │
-│ appdirs              │ Supported        │
-│ attrs                │ Verified         │
-│ cattrs               │ Verified         │
-│ certifi              │ Verified         │
-...
-
-│ pypi-attestations    │ Verified         │
-│ requests             │ Verified         │
-│ requests-cache       │ Valid            │
-│ requirements-parser  │ Verified         │
-│ rfc3161-client       │ Verified         │
-│ rfc3986              │ Unsupported      │
-│ rfc8785              │ Supported        │
-│ rich                 │ Supported        │
-│ securesystemslib     │ Verified         │
-│ sigstore             │ Verified         │
-│ sigstore-models      │ Verified         │
-│ sigstore-rekor-types │ Verified         │
-│ tomli                │ Supported        │
-│ tuf                  │ Verified         │
-│ typing-extensions    │ Verified         │
-│ typing-inspection    │ Verified         │
-│ url-normalize        │ Supported        │
-│ urllib3              │ Verified         │
-└──────────────────────┴──────────────────┘
+                                                                              
+                               List Of Packages                               
+┏━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Package              ┃ Attestation Info ┃ Last Updated                     ┃
+┡━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ annotated-types      │ Supported        │ 2024-05-20 21:33:25.928805+00:00 │
+│ attrs                │ Verified         │ 2026-03-19 14:22:25.026315+00:00 │
+│ cattrs               │ Valid            │ 2026-02-18 22:15:19.406296+00:00 │
+│ certifi              │ Valid            │ 2026-05-20 11:46:50.073147+00:00 │
+│ cffi                 │ Supported        │ 2025-09-08 23:24:04.541971+00:00 │
+.....
+│ tuf                  │ Verified         │ 2026-05-18 08:28:57.408643+00:00 │
+│ typing-extensions    │ Verified         │ 2025-08-25 13:49:26.313895+00:00 │
+│ typing-inspection    │ Verified         │ 2025-10-01 02:14:41.687923+00:00 │
+│ url-normalize        │ Supported        │ 2026-04-25 00:31:59.514290+00:00 │
+│ urllib3              │ Verified         │ 2026-05-07 16:13:18.596909+00:00 │
+└──────────────────────┴──────────────────┴──────────────────────────────────┘
 
 ```
 
@@ -94,29 +79,19 @@ See below for the output if you run `attestationcheck` in this directory. More e
 
 ```csv
 >>> uv run attestationcheck -f csv
-
-name,version,namever,homePage,author,repo,filename,digest_256,is_supported_publisher,is_attestation_present,is_attestation_valid,is_attestation_verified,httpErrorCode,attestation_info
-annotated-types,0.7.0,annotated-types-0.7.0,,Adrian Garcia Badaracco,https://github.com/annotated-types/annotated-types,annotated_types-0.7.0-py3-none-any.whl,1f02e8b43a8fbbc3f3e0d4f0f4bfc8131bcb4eebe8849b8e5c773f3a1c582a53,True,False,False,False,0,Supported
-appdirs,1.4.4,appdirs-1.4.4,http://github.com/ActiveState/appdirs,Trent Mick,http://github.com/ActiveState/appdirs,appdirs-1.4.4-py2.py3-none-any.whl,a841dacd6b99318a741b166adb07e19ee71a274450e68237b4650ca1055ab128,True,False,False,False,0,Supported
-attrs,26.1.0,attrs-26.1.0,,Hynek Schlawack,https://tidelift.com/subscription/pkg/pypi-attrs?utm_source=pypi-attrs&utm_medium=pypi,attrs-26.1.0-py3-none-any.whl,c647aa4a12dfbad9333ca4e71fe62ddc36f4e63b2d260a37a8b83d2f043ac309,True,True,False,True,0,Verified
-cattrs,26.1.0,cattrs-26.1.0,,Tin Tvrtkovic,https://github.com/python-attrs/cattrs,cattrs-26.1.0-py3-none-any.whl,d1e0804c42639494d469d08d4f26d6b9de9b8ab26b446db7b5f8c2e97f7c3096,True,True,True,True,0,Verified
-certifi,2026.5.20,certifi-2026.5.20,https://github.com/certifi/python-certifi,Kenneth Reitz,https://github.com/certifi/python-certifi,certifi-2026.5.20-py3-none-any.whl,3c52e209ba0a4ad7aebe60436a4ab349c39e1e602e8c134221e546902ad25897,True,True,True,True,0,Verified
-cffi,2.0.0,cffi-2.0.0,,"Armin Rigo, Maciej Fijalkowski",https://github.com/python-cffi/cffi,cffi-2.0.0-cp39-cp39-win_amd64.whl,b882b3df248017dba09d6b16defe9b5c407fe32fc7c65a9c69798e6175601be9,True,False,False,False,0,Supported
-charset-normalizer,3.4.7,charset-normalizer-3.4.7,,"""Ahmed R. TAHRI""",https://github.com/jawah/charset_normalizer/issues,charset_normalizer-3.4.7-py3-none-any.whl,3dce51d0f5e7951f8bb4900c257dad282f49190fdbebecd4ba99bcc41fef404d,True,True,False,False,0,Present
-configurator,3.2.0,configurator-3.2.0,https://github.com/Simplistix/configurator,Chris Withers,https://github.com/Simplistix/configurator,configurator-3.2.0-py3-none-any.whl,be39c84f9a9aafd09b3c34acdc267ca4a5804e51975bfdd01cb2d433e9856766,True,False,False,False,0,Supported
-cryptography,49.0.0,cryptography-49.0.0,,The Python Cryptographic Authority and individual contributors,https://github.com/pyca/cryptography/,cryptography-49.0.0-pp311-pypy311_pp73-win_amd64.whl,be9fcb48a55f023493482827d4f459bd263cc20efde64f204b97c123201850c6,True,True,False,True,0,Verified
-depgather,0.4.0,depgather-0.4.0,,FredHappyface,https://github.com/FHPythonUtils/DepGather,depgather-0.4.0-py3-none-any.whl,8bd2a813a4b9cfe385daea7d8addcfc03fd9b12254dc119918d5c65ccd26461f,True,True,True,True,0,Verified
-dnspython,2.8.0,dnspython-2.8.0,,Bob Halley,https://github.com/rthalley/dnspython.git,dnspython-2.8.0-py3-none-any.whl,01d9bbc4a2d76bf0db7c1f729812ded6d912bd318d3b1cf81d30c0f845dbf3af,True,True,False,True,0,Verified
-
+name,version,namever,homePage,author,repo,filename,digest_256,is_supported_publisher,is_attestation_present,is_attestation_valid,is_attestation_verified,last_updated,httpErrorCode,attestation_info
+annotated-types,0.7.0,annotated-types-0.7.0,,Adrian Garcia Badaracco,https://github.com/annotated-types/annotated-types,annotated_types-0.7.0-py3-none-any.whl,1f02e8b43a8fbbc3f3e0d4f0f4bfc8131bcb4eebe8849b8e5c773f3a1c582a53,True,False,False,False,2024-05-20 21:33:25.928805+00:00,0,Supported
+attrs,26.1.0,attrs-26.1.0,,Hynek Schlawack,https://tidelift.com/subscription/pkg/pypi-attrs?utm_source=pypi-attrs&utm_medium=pypi,attrs-26.1.0-py3-none-any.whl,c647aa4a12dfbad9333ca4e71fe62ddc36f4e63b2d260a37a8b83d2f043ac309,True,True,False,True,2026-03-19 14:22:25.026315+00:00,0,Verified
+cattrs,26.1.0,cattrs-26.1.0,,Tin Tvrtkovic,https://github.com/python-attrs/cattrs,cattrs-26.1.0-py3-none-any.whl,d1e0804c42639494d469d08d4f26d6b9de9b8ab26b446db7b5f8c2e97f7c3096,True,True,True,True,2026-02-18 22:15:19.406296+00:00,0,Verified
+certifi,2026.5.20,certifi-2026.5.20,https://github.com/certifi/python-certifi,Kenneth Reitz,https://github.com/certifi/python-certifi,certifi-2026.5.20-py3-none-any.whl,3c52e209ba0a4ad7aebe60436a4ab349c39e1e602e8c134221e546902ad25897,True,True,True,True,2026-05-20 11:46:50.073147+00:00,0,Verified
+cffi,2.0.0,cffi-2.0.0,,"Armin Rigo, Maciej Fijalkowski",https://github.com/python-cffi/cffi,cffi-2.0.0-cp39-cp39-win_amd64.whl,b882b3df248017dba09d6b16defe9b5c407fe32fc7c65a9c69798e6175601be9,True,False,False,False,2025-09-08 23:24:04.541971+00:00,0,Supported
 ...
+tuf,7.0.0,tuf-7.0.0,,theupdateframework@googlegroups.com,https://github.com/theupdateframework/python-tuf,tuf-7.0.0-py3-none-any.whl,572bdbdc9ff4a82278a0d4773e6100863b9b33023f27575e84ca65b486dd0d79,True,True,True,True,2026-05-18 08:28:57.408643+00:00,0,Verified
+typing-extensions,4.15.0,typing-extensions-4.15.0,,"""Guido van Rossum, Jukka Lehtosalo, Łukasz Langa, Michael Lee""",https://github.com/python/typing_extensions,typing_extensions-4.15.0-py3-none-any.whl,f0fa19c6845758ab08074a0cfa8b7aecb71c999ca73d62883bc25cc018c4e548,True,True,True,True,2025-08-25 13:49:26.313895+00:00,0,Verified
+typing-inspection,0.4.2,typing-inspection-0.4.2,,Victorien Plot,https://github.com/pydantic/typing-inspection,typing_inspection-0.4.2-py3-none-any.whl,4ed1cacbdc298c220f1bd249ed5287caa16f34d44ef4e9c3d0cbad5b521545e7,True,True,True,True,2025-10-01 02:14:41.687923+00:00,0,Verified
+url-normalize,3.0.0,url-normalize-3.0.0,,Nikolay Panov,https://github.com/niksite/url-normalize,url_normalize-3.0.0-py3-none-any.whl,95234bd359f86831c1fd87c248877f2a6887db2f3b5087120083f2fffcba4889,True,False,False,False,2026-04-25 00:31:59.514290+00:00,0,Supported
+urllib3,2.7.0,urllib3-2.7.0,,Andrey Petrov,https://github.com/urllib3/urllib3/issues,urllib3-2.7.0-py3-none-any.whl,9fb4c81ebbb1ce9531cce37674bbc6f1360472bc18ca9a553ede278ef7276897,True,True,False,True,2026-05-07 16:13:18.596909+00:00,0,Verified
 
-b62bf38c5b1a62bc0d7fe0ee51a0709e49311d137c7880c329882a8f4b2d1d78,True,True,True,True,0,Verified
-tomli,2.4.1,tomli-2.4.1,,Taneli Hukkinen,https://github.com/hukkin/tomli,tomli-2.4.1-py3-none-any.whl,0d85819802132122da43cb86656f8d1f8c6587d54ae7dcaf30e90533028b49fe,True,False,False,False,0,Supported
-tuf,7.0.0,tuf-7.0.0,,theupdateframework@googlegroups.com,https://github.com/theupdateframework/python-tuf,tuf-7.0.0-py3-none-any.whl,572bdbdc9ff4a82278a0d4773e6100863b9b33023f27575e84ca65b486dd0d79,True,True,True,True,0,Verified
-typing-extensions,4.15.0,typing-extensions-4.15.0,,"""Guido van Rossum, Jukka Lehtosalo, Łukasz Langa, Michael Lee""",https://github.com/python/typing_extensions,typing_extensions-4.15.0-py3-none-any.whl,f0fa19c6845758ab08074a0cfa8b7aecb71c999ca73d62883bc25cc018c4e548,True,True,True,True,0,Verified
-typing-inspection,0.4.2,typing-inspection-0.4.2,,Victorien Plot,https://github.com/pydantic/typing-inspection,typing_inspection-0.4.2-py3-none-any.whl,4ed1cacbdc298c220f1bd249ed5287caa16f34d44ef4e9c3d0cbad5b521545e7,True,True,True,True,0,Verified
-url-normalize,3.0.0,url-normalize-3.0.0,,Nikolay Panov,https://github.com/niksite/url-normalize,url_normalize-3.0.0-py3-none-any.whl,95234bd359f86831c1fd87c248877f2a6887db2f3b5087120083f2fffcba4889,True,False,False,False,0,Supported
-urllib3,2.7.0,urllib3-2.7.0,,Andrey Petrov,https://github.com/urllib3/urllib3/issues,urllib3-2.7.0-py3-none-any.whl,9fb4c81ebbb1ce9531cce37674bbc6f1360472bc18ca9a553ede278ef7276897,True,True,False,True,0,Verified
 ```
 
 ### Groups
@@ -125,34 +100,32 @@ urllib3,2.7.0,urllib3-2.7.0,,Andrey Petrov,https://github.com/urllib3/urllib3/is
 uv run attestationcheck  --show-only-failing -g dev
 
 ...
-
-           List Of Packages           
-┏━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┓
-┃ Package         ┃ Attestation Info ┃
-┡━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━┩
-│ annotated-types │ Supported        │
-│ appdirs         │ Supported        │
-│ basedpyright    │ Supported        │
-│ cattrs          │ Valid            │
-│ cffi            │ Supported        │
-│ configurator    │ Supported        │
-│ email-validator │ Supported        │
-│ markdown        │ Supported        │
-│ markdown-it-py  │ Supported        │
-│ mdurl           │ Supported        │
-│ nodeenv         │ Supported        │
-│ pyasn1          │ Supported        │
-│ pycparser       │ Supported        │
-│ pydantic-core   │ Supported        │
-│ pygments        │ Supported        │
-│ pyright         │ Supported        │
-│ rfc3986         │ Unsupported      │
-│ rfc8785         │ Supported        │
-│ rich            │ Supported        │
-│ ruff            │ Supported        │
-│ tomli           │ Supported        │
-│ url-normalize   │ Supported        │
-└─────────────────┴──────────────────┘
+                                                           
+                             List Of Packages                              
+┏━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Package           ┃ Attestation Info ┃ Last Updated                     ┃
+┡━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ annotated-types   │ Supported        │ 2024-05-20 21:33:25.928805+00:00 │
+│ basedpyright      │ Supported        │ 2026-06-14 09:05:30.177236+00:00 │
+│ cffi              │ Supported        │ 2025-09-08 23:24:04.541971+00:00 │
+│ configurator      │ Supported        │ 2023-09-13 07:03:15.373819+00:00 │
+│ email-validator   │ Supported        │ 2025-08-26 13:09:06.831581+00:00 │
+│ markdown          │ Supported        │ 2026-02-09 14:57:26.942957+00:00 │
+│ markdown-it-py    │ Supported        │ 2026-05-07 12:08:28.360612+00:00 │
+│ mdurl             │ Supported        │ 2022-08-14 12:40:10.846281+00:00 │
+│ pyasn1            │ Supported        │ 2026-03-17 01:06:53.382518+00:00 │
+│ pycparser         │ Supported        │ 2026-01-21 14:26:51.890565+00:00 │
+│ pydantic-core     │ Supported        │ 2026-05-22 13:19:00.229323+00:00 │
+│ pygments          │ Supported        │ 2026-03-29 13:29:33.898791+00:00 │
+│ pyopenssl         │ Valid            │ 2026-06-12 20:28:07.458876+00:00 │
+│ rfc3986           │ Unsupported      │ 2022-01-10 00:52:30.832978+00:00 │
+│ rfc8785           │ Supported        │ 2024-09-27 16:33:31.206853+00:00 │
+│ rich              │ Supported        │ 2026-04-12 08:24:00.750018+00:00 │
+│ ruff              │ Supported        │ 2026-06-11 17:54:47.663633+00:00 │
+│ tomli             │ Supported        │ 2026-03-25 20:22:03.828102+00:00 │
+│ typing-extensions │ Valid            │ 2025-08-25 13:49:26.313895+00:00 │
+│ url-normalize     │ Supported        │ 2026-04-25 00:31:59.514290+00:00 │
+└───────────────────┴──────────────────┴──────────────────────────────────┘
 
 ```
 
@@ -194,7 +167,7 @@ in the DOCS
 
 ## Configuration Example
 
-Configuration files are parsed in the following order: `pyproject.toml`, `setup.cfg`,
+Configuration files are parsed in the following order: `pyproject.toml`, 
  `attestationcheck.toml`, `attestationcheck.json`, `~/attestationcheck.toml`, `~/attestationcheck.json`,
 
 - ⚠ All config files are parsed, however configuration defined in previous files takes precedent

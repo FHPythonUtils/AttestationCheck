@@ -1,4 +1,7 @@
-import appdirs
 import requests_cache
+from platformdirs import PlatformDirs
 
-session = requests_cache.CachedSession(appdirs.user_cache_dir("attestationcheck", "fredhappyface"))
+dirs = PlatformDirs("attestationcheck", "fredhappyface")
+
+
+session = requests_cache.CachedSession(dirs.user_cache_dir)

@@ -18,6 +18,7 @@
 			"is_attestation_present": false,
 			"is_attestation_valid": false,
 			"is_attestation_verified": false,
+			"last_updated": "1970-01-01T00:00:00+00:00",
 			"httpErrorCode": 0,
 			"attestation_info": "Unsupported"
 		}

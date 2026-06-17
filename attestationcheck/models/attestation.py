@@ -1,6 +1,5 @@
+from depgather.models.defaultonnone import DefaultOnNoneModel
 from pydantic import Field
-
-from attestationcheck.models.defaultonnone import DefaultOnNoneModel
 
 
 class Envelope(DefaultOnNoneModel):

@@ -1,6 +1,6 @@
 [project]
 name = "attestationcheck"
-version = "0.1.1"
+version = "0.2.0"
 description = "Output the attestation status used by dependencies. e.g. Verified, Valid, Supported by package host etc."
 authors = [{ name = "FredHappyface" }]
 requires-python = ">=3.12"
@@ -21,10 +21,10 @@ classifiers = [
 	"Topic :: Utilities",
 ]
 dependencies = [
-	"appdirs>=1.4.4",
 	"configurator>=3.2.0",
-	"depgather>=0.4.0",
+	"depgather>=0.5.0",
 	"markdown>=3.10.2",
+	"platformdirs>=4.10.0",
 	"pydantic>=2.13.4",
 	"pypi-attestations>=0.0.29",
 	"requests>=2.32.5",

@@ -30,6 +30,7 @@ import csv
 import json
 import re
 from collections import OrderedDict
+from datetime import datetime
 from importlib.metadata import PackageNotFoundError, version
 from io import StringIO
 from pathlib import Path
@@ -94,7 +95,8 @@ def ansi(
 	if len(errors) > 0:
 		table = Table(title="\nList Of Errors")
 		table.add_column("Package", style="magenta")
-		_ = [table.add_row(x.get("name", "?")) for x in errors]
+		table.add_column("Error Code", style="magenta")
+		_ = [table.add_row(x.get("name", "?"), str(x.get("httpErrorCode", -1))) for x in errors]
 		console.print(table)
 
 	table = Table(title="\nList Of Packages")
@@ -102,6 +104,8 @@ def ansi(
 		table.add_column("Package", header_style="magenta")
 	if attestation_info := "attestation_info" in packages[0]:
 		table.add_column("Attestation Info", header_style="magenta")
+	if last_updated := "last_updated" in packages[0]:
+		table.add_column("Last Updated", header_style="magenta")
 
 	attestation_info_lookup = {
 		AttestationInfo.NONE: "[red]Unsupported[/]",
@@ -119,6 +123,7 @@ def ansi(
 					if attestation_info
 					else []
 				)
+				+ ([str(x.get("last_updated"))] if last_updated else [])
 			)
 		)
 		for x in packages
@@ -207,7 +212,7 @@ def raw(packages: list[dict[str, Any]]) -> str:
 	"""
 	Format to json.
 
-	:param list[dict[str, Any]] packages: list of PackageInfo, representes as a dict to format.
+	:param list[dict[str, Any]] packages: list of PackageInfo, represents as a dict to format.
 	:return str: string to send to specified output in json format
 	"""
 	return json.dumps(
@@ -216,6 +221,7 @@ def raw(packages: list[dict[str, Any]]) -> str:
 			"packages": packages,
 		},
 		indent="\t",
+		default=lambda obj: obj.isoformat() if isinstance(obj, datetime) else obj,
 	)
 
 

@@ -2,17 +2,18 @@
 
 from __future__ import annotations
 
+import datetime
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Any
 
 import requests
+from depgather.models.pypijson import Info, ProjectResponse
 from depgather.parse import gather
 from packaging.utils import canonicalize_name
 from pypi_attestations._impl import AttestationBundle, Provenance
 
 from attestationcheck.models.packageinfo import PackageInfo, PackageLike
-from attestationcheck.models.pypijson import Info, ProjectResponse
 from attestationcheck.session import session
 from attestationcheck.verify_attestation import validate_attestation, verify_attestation
 
@@ -108,6 +109,7 @@ class PackageInfoManager:
 			is_supported_publisher=rpi.is_supported_publisher(),
 			is_attestation_present=isinstance(attestation_bundle, list),
 			httpErrorCode=rpi.http_code if rpi.http_code != HTTP_OK else 0,
+			last_updated=rpi.get_lastUpdated(),
 		)
 
 		if isinstance(attestation_bundle, list):
@@ -168,8 +170,7 @@ class RemotePackageInfo:
 		return any((url.host or "").startswith(PUBLISHER_HOSTS) for url in urls)
 
 	def get_fileinfo(self) -> tuple[str, str] | tuple[None, None]:
-		files = [x or "" for x in self.resp.urls]
-		wheel_files = [x for x in files if x.filename.endswith(".whl")]
+		wheel_files = [x for x in self.resp.urls if x.filename.endswith(".whl")]
 		if len(wheel_files) > 0:
 			f = wheel_files[-1]
 			return f.filename, f.digests.sha256
@@ -188,3 +189,10 @@ class RemotePackageInfo:
 				return Provenance.model_validate(attestation_bundle).attestation_bundles
 			return rc
 		return -3
+
+	def get_lastUpdated(self) -> datetime.datetime:
+		files = self.resp.urls
+		if len(files) > 0:
+			f = files[-1]
+			return f.upload_time_iso_8601
+		return datetime.datetime(1970, 1, 1, tzinfo=datetime.UTC)

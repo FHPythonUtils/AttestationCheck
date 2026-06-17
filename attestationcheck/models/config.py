@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import field
 
-from attestationcheck.models.defaultonnone import DefaultOnNoneModel
+from depgather.models.defaultonnone import DefaultOnNoneModel
 
 
 class LC_Config(DefaultOnNoneModel):
