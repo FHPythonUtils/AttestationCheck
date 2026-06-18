@@ -144,7 +144,7 @@ options:
   -h, --help            show this help message and exit
   --format, -f FORMAT   Output format. one of: html, simple, csv, ansi, markdown, json. default=simple
   --requirements-paths, -r REQUIREMENTS_PATHS [REQUIREMENTS_PATHS ...]
-                        Filenames to read from (omit for stdin if piping, else pyproject.toml)
+                        Filenames to read from (default=pyproject.toml)
   --groups, -g GROUPS [GROUPS ...]
                         Select groups from supported files
   --extras, -e EXTRAS [EXTRAS ...]

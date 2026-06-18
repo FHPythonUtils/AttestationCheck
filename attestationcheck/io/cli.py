@@ -38,7 +38,7 @@ def cli() -> None:  # pragma: no cover
 	parser.add_argument(
 		"--requirements-paths",
 		"-r",
-		help="Filenames to read from (omit for stdin if piping, else pyproject.toml)",
+		help="Filenames to read from (default=pyproject.toml)",
 		nargs="+",
 	)
 	parser.add_argument(
@@ -117,11 +117,11 @@ def main(attestationcheckConf: LC_Config) -> ExitCode:
 	exitCode = ExitCode.SUCCESS
 
 	# File
-	requirements_paths = attestationcheckConf.requirements_paths or {"__stdin__"}
+	requirements_paths = attestationcheckConf.requirements_paths
 	output_file = (
 		stdout
-		if attestationcheckConf.file in [None, ""]
-		else Path(attestationcheckConf.file or "").open("w", encoding="utf-8")
+		if attestationcheckConf.file == ""
+		else Path(attestationcheckConf.file).open("w", encoding="utf-8")
 	)
 
 	package_info_manager = packageinforesolver.PackageInfoManager(

@@ -95,6 +95,17 @@ venvPath = "."
 venv = ".venv"
 typeCheckingMode = "standard"
 
+[tool.attestationcheck]
+format = "simple"             # Output format (e.g., "json", "csv", etc.)
+requirements_paths = []       # List of filenames to read from
+groups = []                   # List of selected groups
+extras = []                   # List of selected extras
+file = ""                     # Output file (leave empty for stdout)
+skip_dependencies = []        # Dependencies to skip (compatibility = True)
+hide_output_parameters = []   # Parameters to hide from output
+show_only_failing = false     # Show only incompatible/failing packages
+pypi_api = "https://pypi.org" # Custom PyPI API endpoint
+zero = false                  # Return non-zero exit code 
 
 
 [tool.tox]
