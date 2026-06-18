@@ -173,7 +173,6 @@ def markdown(
 	# Details
 	params_use_in_markdown = {
 		"author": "Author",
-		"warning": "Warning",
 		"is_attestation_verified": "Attestation Verified",
 		"is_attestation_valid": "Attestation Valid",
 		"is_attestation_present": "Attestation Present",
@@ -240,8 +239,7 @@ def rawCsv(
 		return ""
 
 	string = StringIO()
-	fieldnames = list(dict.fromkeys(key for package in packages for key in package))
-	writer = csv.DictWriter(string, fieldnames=fieldnames, lineterminator="\n")
+	writer = csv.DictWriter(string, fieldnames=list(packages[0]), lineterminator="\n")
 	writer.writeheader()
 	writer.writerows(packages)
 	return string.getvalue()

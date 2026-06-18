@@ -44,7 +44,6 @@ class PackageInfo:
 	repo: str | None = None
 	filename: str | None = None
 	digest_256: str | None = None
-	warning: str | None = None
 
 	is_supported_publisher: bool = False
 	is_attestation_present: bool = False
@@ -82,5 +81,5 @@ class PackageInfo:
 		return {
 			k: (v if v is not None else UNKNOWN)
 			for k, v in iter_fields_and_properties(self)
-			if k.upper() not in hide_output_parameters_upper and not (k == "warning" and v is None)
+			if k.upper() not in hide_output_parameters_upper
 		}

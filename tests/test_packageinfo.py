@@ -95,7 +95,7 @@ def test_getPackagesNotFound(package_info_manager: PackageInfoManager) -> None:
 	assert package.httpErrorCode == 404
 
 
-def test_unpinned_requirement_reports_warning(package_info_manager: PackageInfoManager) -> None:
+def test_unpinned_requirement_does_not_crash(package_info_manager: PackageInfoManager) -> None:
 	package_info_manager.reqs = {Requirement("sample")}
 
 	packages = package_info_manager.getPackages()
@@ -103,30 +103,3 @@ def test_unpinned_requirement_reports_warning(package_info_manager: PackageInfoM
 
 	assert package.name == "sample"
 	assert package.httpErrorCode == 0
-	assert package.warning == (
-		"Warning: no version specifier present, result may not represent the version "
-		"installed in a real environment"
-	)
-
-
-def test_unpinned_requirement_via_resolve_requirements(
-	package_info_manager: PackageInfoManager, tmp_path: Path
-) -> None:
-	requirements_file = tmp_path / "requirements.txt"
-	requirements_file.write_text("sample\n", encoding="utf-8")
-
-	package_info_manager.resolve_requirements(
-		requirements_paths={str(requirements_file)},
-		groups=set(),
-		extras=set(),
-		skip_dependencies=set(),
-	)
-
-	packages = package_info_manager.getPackages()
-	package = next(x for x in packages if x.name == "sample")
-
-	assert package.httpErrorCode == 0
-	assert package.warning == (
-		"Warning: no version specifier present, result may not represent the version "
-		"installed in a real environment"
-	)
