@@ -1,6 +1,6 @@
 [project]
 name = "attestationcheck"
-version = "0.2.1"
+version = "0.2.2"
 description = "Output the attestation status used by dependencies. e.g. Verified, Valid, Supported by package host etc."
 authors = [{ name = "FredHappyface" }]
 requires-python = ">=3.12"
@@ -95,17 +95,6 @@ venvPath = "."
 venv = ".venv"
 typeCheckingMode = "standard"
 
-[tool.attestationcheck]
-format = "simple"             # Output format (e.g., "json", "csv", etc.)
-requirements_paths = []       # List of filenames to read from
-groups = []                   # List of selected groups
-extras = []                   # List of selected extras
-file = ""                     # Output file (leave empty for stdout)
-skip_dependencies = []        # Dependencies to skip (compatibility = True)
-hide_output_parameters = []   # Parameters to hide from output
-show_only_failing = false     # Show only incompatible/failing packages
-pypi_api = "https://pypi.org" # Custom PyPI API endpoint
-zero = false                  # Return non-zero exit code 
 
 
 [tool.tox]

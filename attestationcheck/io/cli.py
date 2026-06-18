@@ -4,9 +4,10 @@ from __future__ import annotations
 
 import argparse
 from dataclasses import fields
+from enum import Enum
 from pathlib import Path
 from sys import exit as sysexit
-from sys import stdin, stdout
+from sys import stdout
 
 from configurator import Config
 from configurator.node import ConfigNode
@@ -17,6 +18,12 @@ from attestationcheck.models.config import LC_Config
 from attestationcheck.models.packageinfo import PackageInfo
 
 stdout.reconfigure(encoding="utf-8")  # type: ignore[general-type-issues]
+
+
+class ExitCode(Enum):
+	SUCCESS = 0
+	UNVERIFIED_PACKAGE = 1
+	NO_PACKAGES = 3
 
 
 def cli() -> None:  # pragma: no cover
@@ -80,12 +87,8 @@ def cli() -> None:  # pragma: no cover
 	)
 	args = vars(parser.parse_args())
 
-	stdin_path = Path("__stdin__")
 	if not args.get("requirements_paths"):
-		if stdin.isatty():
-			args["requirements_paths"] = ["pyproject.toml"]
-		else:
-			stdin_path.write_text("\n".join(stdin.readlines()), encoding="utf-8")
+		args["requirements_paths"] = ["pyproject.toml"]
 
 	config: ConfigNode = Config()
 
@@ -105,14 +108,13 @@ def cli() -> None:  # pragma: no cover
 	attestationcheckConf: LC_Config = LC_Config.model_validate({**scopedData.data, **args})
 
 	ec = main(attestationcheckConf)
-	stdin_path.unlink(missing_ok=True)
 
-	sysexit(ec)
+	sysexit(ec.value)
 
 
-def main(attestationcheckConf: LC_Config) -> int:
+def main(attestationcheckConf: LC_Config) -> ExitCode:
 	"""Test entry point."""
-	exitCode = 0
+	exitCode = ExitCode.SUCCESS
 
 	# File
 	requirements_paths = attestationcheckConf.requirements_paths or {"__stdin__"}
@@ -148,23 +150,22 @@ def main(attestationcheckConf: LC_Config) -> int:
 		)
 		raise ValueError(msg)
 
-	format_ = attestationcheckConf.format or "simple"
-	if attestationcheckConf.format in fmt.formatMap:
-		print(
-			fmt.fmt(
-				format_,
-				sorted(all_packages),
-				hide_output_parameters,
-				show_only_failing=attestationcheckConf.show_only_failing,
-			),
-			file=output_file,
-		)
-	else:
-		exitCode = 2
+	print(
+		fmt.fmt(
+			attestationcheckConf.format,
+			sorted(all_packages),
+			hide_output_parameters,
+			show_only_failing=attestationcheckConf.show_only_failing,
+		),
+		file=output_file,
+	)
 
 	# Exit code of 1 if args.zero
-	if attestationcheckConf.zero and incompatible:
-		exitCode = 1
+	if attestationcheckConf.zero:
+		if len(all_packages) == 0:
+			exitCode = ExitCode.NO_PACKAGES
+		if incompatible:
+			exitCode = ExitCode.UNVERIFIED_PACKAGE
 
 	# Cleanup + exit
 	if attestationcheckConf.file not in [None, ""]:
