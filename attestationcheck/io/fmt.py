@@ -173,6 +173,7 @@ def markdown(
 	# Details
 	params_use_in_markdown = {
 		"author": "Author",
+		"warning": "Warning",
 		"is_attestation_verified": "Attestation Verified",
 		"is_attestation_valid": "Attestation Valid",
 		"is_attestation_present": "Attestation Present",

@@ -23,6 +23,10 @@ PUBLISHER_HOSTS = (
 	"gitlab.com",
 )
 HTTP_OK = 200
+UNPINNED_DEPENDENCY_WARNING = (
+    "Warning: no version specifier present, result may not represent the version "
+    "installed in a real environment"
+)
 
 
 class PackageInfoManager:
@@ -73,12 +77,19 @@ class PackageInfoManager:
 		:param PackageLike package: package info to unpack
 		:return PackageInfo: Information about the package.
 		"""
-		versions = {None}
+		versions: set[str | None] = {None}
+		warning: str | None = None
+
 		try:
 			requirement_specs = package.specifier._specs
-			versions = {x._spec[1] for x in requirement_specs}
+			parsed_versions = {x._spec[1] for x in requirement_specs}
+
+			if parsed_versions:
+				versions = parsed_versions
+			else:
+				warning = UNPINNED_DEPENDENCY_WARNING
 		except AttributeError:
-			pass
+			warning = UNPINNED_DEPENDENCY_WARNING
 
 		package.name = canonicalize_name(package.name)
 
@@ -104,6 +115,7 @@ class PackageInfoManager:
 			homePage=rpi.get_homePage(),
 			author=rpi.get_author(),
 			repo=str(repo) if repo else None,
+			warning=warning,
 			filename=fn,
 			digest_256=sha256,
 			is_supported_publisher=rpi.is_supported_publisher(),
