@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import datetime
+import tomllib
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Any
@@ -10,6 +11,7 @@ from typing import Any
 import requests
 from depgather.models.pypijson import Info, ProjectResponse
 from depgather.parse import gather
+from packaging.requirements import InvalidRequirement, Requirement
 from packaging.utils import canonicalize_name
 from pypi_attestations._impl import AttestationBundle, Provenance
 
@@ -41,6 +43,7 @@ class PackageInfoManager:
 		"""
 		self.base_pypi_url = base_pypi_url
 		self.reqs: set[PackageLike] = set()
+		self.unpinned_direct_dependencies: set[str] = set()
 
 	def resolve_requirements(
 		self,
@@ -50,15 +53,93 @@ class PackageInfoManager:
 		skip_dependencies: set[str],
 	) -> None:
 		for requirements_path in requirements_paths:
+			path = Path(requirements_path)
+			self.unpinned_direct_dependencies.update(
+				self._find_unpinned_direct_dependencies(path, groups, extras)
+			)
 			self.reqs.update(
 				gather(
 					skipDependencies=skip_dependencies,
 					groups=groups,
 					extras=extras,
-					requirementsPath=Path(requirements_path),
+					requirementsPath=path,
 					base_index_url=self.base_pypi_url,
 				)
 			)
+
+	def _find_unpinned_direct_dependencies(
+		self,
+		requirements_path: Path,
+		groups: set[str],
+		extras: set[str],
+	) -> set[str]:
+		"""
+		Capture direct requirements that were provided without a version specifier.
+
+		This runs before dependency gathering so we retain unpinned intent even when
+		downstream resolution later provides concrete versions.
+		"""
+		requirement_strings = self._read_requirement_strings(requirements_path, groups, extras)
+		return self._extract_unpinned_dependency_names(requirement_strings)
+
+	def _read_requirement_strings(
+		self,
+		requirements_path: Path,
+		groups: set[str],
+		extras: set[str],
+	) -> list[str]:
+		if not requirements_path.exists() or requirements_path.is_dir():
+			return []
+
+		if requirements_path.suffix == ".toml":
+			return self._read_toml_requirement_strings(requirements_path, groups, extras)
+
+		try:
+			return requirements_path.read_text(encoding="utf-8").splitlines()
+		except OSError:
+			return []
+
+	def _read_toml_requirement_strings(
+		self,
+		requirements_path: Path,
+		groups: set[str],
+		extras: set[str],
+	) -> list[str]:
+		try:
+			with requirements_path.open("rb") as f:
+				data = tomllib.load(f)
+		except (OSError, tomllib.TOMLDecodeError):
+			return []
+
+		requirement_strings = list(data.get("project", {}).get("dependencies", []))
+
+		optional_dependencies = data.get("project", {}).get("optional-dependencies", {})
+		for extra in extras:
+			requirement_strings.extend(optional_dependencies.get(extra, []))
+
+		dependency_groups = data.get("dependency-groups", {})
+		for group in groups:
+			requirement_strings.extend(dependency_groups.get(group, []))
+
+		return requirement_strings
+
+	def _extract_unpinned_dependency_names(self, requirement_strings: list[str]) -> set[str]:
+		unpinned: set[str] = set()
+		for requirement_string in requirement_strings:
+			line = requirement_string.strip()
+			if not line or line.startswith("#"):
+				continue
+
+			line = line.split(" #", 1)[0].strip()
+			try:
+				req = Requirement(line)
+			except InvalidRequirement:
+				continue
+
+			if not str(req.specifier):
+				unpinned.add(canonicalize_name(req.name))
+
+		return unpinned
 
 	def getPackages(self) -> set[PackageInfo]:
 		"""
@@ -79,17 +160,18 @@ class PackageInfoManager:
 		"""
 		versions: set[str | None] = {None}
 		warning: str | None = None
+		package.name = canonicalize_name(package.name)
 
 		specifier = getattr(package, "specifier", None)
-		if specifier is not None:
+		if package.name in self.unpinned_direct_dependencies:
+			warning = UNPINNED_DEPENDENCY_WARNING
+		elif specifier is not None:
 			parsed_versions = {item.version for item in specifier}
 
 			if parsed_versions:
 				versions = parsed_versions
 			else:
 				warning = UNPINNED_DEPENDENCY_WARNING
-
-		package.name = canonicalize_name(package.name)
 
 		base_pkg_info: PackageInfo = PackageInfo(
 			name=package.name, version=versions.pop(), httpErrorCode=1
