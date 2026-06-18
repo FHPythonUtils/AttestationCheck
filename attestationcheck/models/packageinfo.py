@@ -44,6 +44,7 @@ class PackageInfo:
 	repo: str | None = None
 	filename: str | None = None
 	digest_256: str | None = None
+	warning: str | None = None
 
 	is_supported_publisher: bool = False
 	is_attestation_present: bool = False
