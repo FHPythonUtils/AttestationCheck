@@ -240,7 +240,8 @@ def rawCsv(
 		return ""
 
 	string = StringIO()
-	writer = csv.DictWriter(string, fieldnames=list(packages[0]), lineterminator="\n")
+	fieldnames = list(dict.fromkeys(key for package in packages for key in package.keys()))
+	writer = csv.DictWriter(string, fieldnames=fieldnames, lineterminator="\n")
 	writer.writeheader()
 	writer.writerows(packages)
 	return string.getvalue()
