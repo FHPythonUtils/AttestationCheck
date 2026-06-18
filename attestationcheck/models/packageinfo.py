@@ -82,5 +82,5 @@ class PackageInfo:
 		return {
 			k: (v if v is not None else UNKNOWN)
 			for k, v in iter_fields_and_properties(self)
-			if k.upper() not in hide_output_parameters_upper
+			if k.upper() not in hide_output_parameters_upper and not (k == "warning" and v is None)
 		}

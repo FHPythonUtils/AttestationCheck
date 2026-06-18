@@ -3,6 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
+from packaging.requirements import Requirement
 
 from attestationcheck.models.packageinfo import PackageInfo
 from attestationcheck.packageinforesolver import (
@@ -92,3 +93,17 @@ def test_getPackagesNotFound(package_info_manager: PackageInfoManager) -> None:
 
 	assert package.name == "this-package-does-not-exist"
 	assert package.httpErrorCode == 404
+
+
+def test_unpinned_requirement_reports_warning(package_info_manager: PackageInfoManager) -> None:
+	package_info_manager.reqs = {Requirement("sample")}
+
+	packages = package_info_manager.getPackages()
+	package: PackageInfo = packages.pop()
+
+	assert package.name == "sample"
+	assert package.httpErrorCode == 0
+	assert package.warning == (
+		"Warning: no version specifier present, result may not represent the version "
+		"installed in a real environment"
+	)

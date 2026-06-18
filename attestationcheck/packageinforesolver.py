@@ -24,8 +24,8 @@ PUBLISHER_HOSTS = (
 )
 HTTP_OK = 200
 UNPINNED_DEPENDENCY_WARNING = (
-    "Warning: no version specifier present, result may not represent the version "
-    "installed in a real environment"
+	"Warning: no version specifier present, result may not represent the version "
+	"installed in a real environment"
 )
 
 
@@ -80,16 +80,14 @@ class PackageInfoManager:
 		versions: set[str | None] = {None}
 		warning: str | None = None
 
-		try:
-			requirement_specs = package.specifier._specs
-			parsed_versions = {x._spec[1] for x in requirement_specs}
+		specifier = getattr(package, "specifier", None)
+		if specifier is not None:
+			parsed_versions = {item.version for item in specifier}
 
 			if parsed_versions:
 				versions = parsed_versions
 			else:
 				warning = UNPINNED_DEPENDENCY_WARNING
-		except AttributeError:
-			warning = UNPINNED_DEPENDENCY_WARNING
 
 		package.name = canonicalize_name(package.name)
 
@@ -193,7 +191,10 @@ class RemotePackageInfo:
 		fn, _digest = self.get_fileinfo()
 
 		if fn is not None:
-			url = f"{self.pypi_api_integrity}/{self.package.name}/{self.get_version()}/{fn}/provenance"
+			url = (
+				f"{self.pypi_api_integrity}/{self.package.name}/"
+				f"{self.get_version()}/{fn}/provenance"
+			)
 			rc, attestation_bundle = self.make_req(
 				url,
 			)
