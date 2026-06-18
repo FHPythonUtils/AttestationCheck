@@ -73,14 +73,14 @@ class PackageInfoManager:
 		:param PackageLike package: package info to unpack
 		:return PackageInfo: Information about the package.
 		"""
-		versions = {None}
-		try:
-			requirement_specs = package.specifier._specs
-			versions = {x._spec[1] for x in requirement_specs}
-		except AttributeError:
-			pass
-
+		versions: set[str | None] = {None}
 		package.name = canonicalize_name(package.name)
+
+		specifier = getattr(package, "specifier", None)
+		if specifier is not None:
+			parsed_versions = {item.version for item in specifier}
+			if parsed_versions:
+				versions = parsed_versions
 
 		base_pkg_info: PackageInfo = PackageInfo(
 			name=package.name, version=versions.pop(), httpErrorCode=1
@@ -181,7 +181,10 @@ class RemotePackageInfo:
 		fn, _digest = self.get_fileinfo()
 
 		if fn is not None:
-			url = f"{self.pypi_api_integrity}/{self.package.name}/{self.get_version()}/{fn}/provenance"
+			url = (
+				f"{self.pypi_api_integrity}/{self.package.name}/"
+				f"{self.get_version()}/{fn}/provenance"
+			)
 			rc, attestation_bundle = self.make_req(
 				url,
 			)
